@@ -28,7 +28,9 @@ async function run() {
 
         const dataBase = client.db("TaskMenegment");
         const users = dataBase.collection("users");
+        const tasks = dataBase.collection("tasks");
 
+        //add new user
         app.put('/addUser', async (req, res) => {
             try {
                 const filter = { email: req.body.email };
@@ -36,10 +38,30 @@ async function run() {
                 const updateDoc = {
                     $set: req.body
                 };
-                const result= await users.updateOne(filter, updateDoc, options);
+                const result = await users.updateOne(filter, updateDoc, options);
                 res.send(result)
             } catch (err) {
+                res.send(err)
+            }
+        })
 
+        //add new task
+        app.post('/addTask', async (req, res) => {
+            try {
+                const result = await tasks.insertOne(req.body)
+                res.send(result)
+            } catch (err) {
+                res.send(err)
+            }
+        })
+
+        //get my tasks
+        app.get('/getTasks/:email', async (req, res) => {
+            try {
+                const result = await tasks.find({user : req.params.email}).sort({priority : -1}).toArray();
+                res.send(result)
+            } catch (err) {
+                res.send(err)
             }
         })
 

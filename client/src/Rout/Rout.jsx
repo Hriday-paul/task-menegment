@@ -4,6 +4,8 @@ import Home from "../pages/Home/Home"
 import Login from "../pages/Login/Login"
 import Register from "../pages/Register/Register"
 import PrivateRout from "../component/Navbar/private/PrivateRout";
+import Dashboard from "../pages/Dashboard/Dashboard";
+import Todos from "../pages/Todos/Todos";
 
 const rout = createBrowserRouter([
     {
@@ -18,7 +20,13 @@ const rout = createBrowserRouter([
     },
     {
         path : "/dashboard",
-        element : <></>
+        element : <PrivateRout><Dashboard></Dashboard></PrivateRout>,
+        children : [
+            {
+                path : '/dashboard/todos',
+                element : <Todos></Todos>
+            }
+        ]
     },
     {
         path : "/login",
