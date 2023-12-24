@@ -6,6 +6,9 @@ import { authContext } from "../../component/Navbar/Authonicate/Authonicate";
 import { TiEdit } from "react-icons/ti";
 import { AiOutlineDelete } from "react-icons/ai";
 import UpdateTask from "./UpdateTask/UpdateTask";
+import { Button, Drawer, Space } from "antd";
+import toast from "react-hot-toast";
+import Swal from 'sweetalert2'
 
 const Todos = () => {
     const [open, setOpen] = useState(false);
@@ -13,6 +16,7 @@ const Todos = () => {
     const axiosPublic = UseAxiosPublic();
     const { userInfo } = useContext(authContext);
     const [todos, setTodos] = useState([]);
+    const [updateData, setUpdateData] = useState('');
 
     const fetchTasks = () => {
         axiosPublic.get(`/getTasks/${userInfo.email}`)
@@ -24,6 +28,51 @@ const Todos = () => {
     useEffect(() => {
         fetchTasks();
     }, [])
+
+    const updateDrower = (todo) => {
+        setUpdateOpen(true);
+        setUpdateData(todo)
+    }
+
+    const closeUpdateDrawer = () => {
+        setUpdateOpen(false);
+        setUpdateData('')
+    }
+
+    // const deleteTask = (id) => {
+    //     axiosPublic.delete(`/deleteTasks/${id}`)
+    //         .then(() => {
+    //             toast.success('Task delete successful');
+    //             fetchTasks();
+    //         })
+    //         .catch(() => {
+    //             toast.error('Failed, Try again !');
+    //         })
+    // }
+
+    const deleteTask = (id) => {
+        Swal.fire({
+            text: "Are you sure want to delete this task!",
+            icon: `warning`,
+            cancelButtonText: "No",
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            showCloseButton: true,
+        })
+            .then(result => {
+                if (result.isConfirmed) {
+                    axiosPublic.delete(`/deleteTasks/${id}`)
+                        .then(() => {
+                            toast.success('Task delete successful');
+                            fetchTasks();
+                        })
+                        .catch(() => {
+                            toast.error('Failed, Try again !');
+                        })
+                }
+
+            })
+    }
 
 
 
@@ -45,6 +94,8 @@ const Todos = () => {
                 open && <NewTaskDrawer setOpen={setOpen} fetchTasks={fetchTasks}></NewTaskDrawer>
             }
 
+
+
             <div className="bg-white border-t-4 border-[#9E58FF] p-5 rounded-lg flex flex-row  gap-x-5">
 
                 {/* pending task */}
@@ -65,15 +116,34 @@ const Todos = () => {
                                     <p className="text-base my-3 font-serif text-gray-700">{todo?.description}</p>
 
                                     <div className="absolute top-2 right-2 space-x-1">
-                                        <button onClick={() => setUpdateOpen(true)} className="bg-gradient-to-r from-[#D78AFF] to-[#9E58FF] btn btn-sm text-white">
+                                        <button onClick={() => updateDrower(todo)} className="bg-gradient-to-r from-[#D78AFF] to-[#9E58FF] btn btn-sm text-white">
                                             <TiEdit></TiEdit>
                                         </button>
-                                        <button className="bg-gradient-to-r from-[#D78AFF] to-[#9E58FF] btn btn-sm text-white">
+                                        <button onClick={() => deleteTask(todo._id)} className="bg-gradient-to-r from-[#D78AFF] to-[#9E58FF] btn btn-sm text-white">
                                             <AiOutlineDelete></AiOutlineDelete>
                                         </button>
-                                        {
-                                            updateOpen && <UpdateTask setUpdateOpen={setUpdateOpen} fetchTasks={fetchTasks} data={todo}></UpdateTask>
-                                        }
+
+                                        <Drawer
+                                            title="Update Task"
+                                            width={720}
+                                            onClose={closeUpdateDrawer}
+                                            open={updateOpen}
+                                            styles={{
+                                                body: {
+                                                    paddingBottom: 20,
+                                                },
+                                            }}
+                                            extra={
+                                                <Space>
+                                                    <Button onClick={closeUpdateDrawer}>Cancel</Button>
+                                                </Space>
+                                            }
+                                        >
+                                            {
+                                                updateOpen && <UpdateTask fetchTasks={fetchTasks} data={updateData}></UpdateTask>
+                                            }
+
+                                        </Drawer>
                                     </div>
 
                                     <span className="absolute bottom-2 right-2 text-xs font-medium font-sans text-red-400">{new Date(todo?.dedline).getDate() + '/' + (new Date(todo?.dedline).getMonth() + 1) + '/' + new Date(todo?.dedline).getFullYear()}</span>

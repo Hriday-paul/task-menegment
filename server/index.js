@@ -3,7 +3,7 @@ const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 2000;
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 app.use(cors());
 app.use(express.json())
@@ -58,7 +58,32 @@ async function run() {
         //get my tasks
         app.get('/getTasks/:email', async (req, res) => {
             try {
-                const result = await tasks.find({user : req.params.email}).sort({priority : -1}).toArray();
+                const result = await tasks.find({ user: req.params.email }).sort({ priority: 1 }).toArray();
+                res.send(result)
+            } catch (err) {
+                res.send(err)
+            }
+        })
+
+        //update task
+        app.put('/updateTask', async (req, res) => {
+            try {
+                const query = { _id: new ObjectId(req.body.id) };
+                console.log(req.body.id)
+                const updateDoc = {
+                    $set: req.body
+                };
+                const result = await tasks.updateOne(query, updateDoc);
+                res.send(result)
+            } catch (err) {
+                res.send(err)
+            }
+        })
+
+        //delete task
+        app.delete('/deleteTasks/:id', async (req, res) => {
+            try {
+                const result = await tasks.deleteOne({ _id: new ObjectId(req.params.id) });
                 res.send(result)
             } catch (err) {
                 res.send(err)
