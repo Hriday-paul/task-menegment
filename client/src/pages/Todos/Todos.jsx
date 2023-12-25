@@ -9,7 +9,7 @@ import UpdateTask from "./UpdateTask/UpdateTask";
 import { Button, Drawer, Space, Spin } from "antd";
 import toast, { Toaster } from "react-hot-toast";
 import Swal from 'sweetalert2'
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { LoadingOutlined } from '@ant-design/icons';
 
 const Todos = () => {

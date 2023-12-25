@@ -59,7 +59,7 @@ const Dashboard = () => {
                                     </span>
                                 </div>
                             </li>
-                            <li className='md:hidden'>
+                            <li className='lg:hidden'>
                                 <div>
                                     {
                                         !slide && <RiMenu3Fill onClick={() => setSlide(true)} className='text-2xl text-white'></RiMenu3Fill>
@@ -78,7 +78,7 @@ const Dashboard = () => {
             </nav>
 
             <div className="flex flex-row">
-                <div className="w-80 bg-gradient-to-br from-[#677AE5] to-[#8577C8] h-[calc(100vh-64px)] hidden lg:block">
+                <div className="w-80 bg-gradient-to-br from-[#677AE5] to-[#8577C8] h-[calc(100vh-80px)] hidden lg:block">
                     <div className="flex gap-x-1 justify-center items-center py-2 bg-[#989de7]">
                         <img className="h-12 rounded-full" src={userInfo?.photoURL !== null ? `${userInfo.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
                         <span>
@@ -99,7 +99,7 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className={`w-2/3 bg-gradient-to-br md:hidden from-[#677AE5] to-[#8577C8] h-[calc(100vh-64px)] absolute top-[64px] left-0 ${slide ? "z-50 translate-x-0" : "-translate-x-[750px]"} duration-300`}>
+                <div className={`w-2/3 md:w-1/3 bg-gradient-to-br lg:hidden from-[#677AE5] to-[#8577C8] h-[calc(100vh-64px)] absolute top-[64px] md:top-[80px] z-50 left-0 ${slide ? "translate-x-0" : "-translate-x-[750px]"} duration-300`}>
                     <div className="flex gap-x-1 justify-center items-center py-2 bg-[#989de7]">
                         <img className="h-12 rounded-full" src={userInfo?.photoURL !== null ? `${userInfo.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
                         <span>
@@ -120,7 +120,7 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className="w-full bg-slate-100 h-[calc(100vh-64px)] p-4 md:p-8 lg:p-10 overflow-auto">
+                <div className="w-full bg-slate-100 h-[calc(100vh-64px)] md:h-[calc(100vh-80px)] p-4 md:p-8 lg:p-10 overflow-auto">
                     <Outlet></Outlet>
                 </div>
             </div>
