@@ -6,13 +6,15 @@ import { authContext } from "../../component/Navbar/Authonicate/Authonicate";
 import { TiEdit } from "react-icons/ti";
 import { AiOutlineDelete } from "react-icons/ai";
 import UpdateTask from "./UpdateTask/UpdateTask";
-import { Button, Drawer, Space } from "antd";
+import { Button, Drawer, Space, Spin } from "antd";
 import toast, { Toaster } from "react-hot-toast";
 import Swal from 'sweetalert2'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { LoadingOutlined } from '@ant-design/icons';
 
 const Todos = () => {
     const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(true)
     const [updateOpen, setUpdateOpen] = useState(false)
     const axiosPublic = UseAxiosPublic();
     const { userInfo } = useContext(authContext);
@@ -33,6 +35,7 @@ const Todos = () => {
                 const filteronGoingTodos = data?.filter((item) => {
                     return item.status === 'ongoing'
                 })
+                setLoading(false)
                 setCompletedTodos(filterCompleteTodo)
                 setTodos(filterPendingTodos)
                 setOngoing(filteronGoingTodos)
@@ -140,6 +143,7 @@ const Todos = () => {
             }
 
             <div className="bg-white border-t-4 border-[#9E58FF] p-5 rounded-lg flex flex-col md:flex-row gap-y-5 md:gap-y-0 gap-x-0 flex-wrap">
+
                 <DragDropContext onDragEnd={onDropEnd}>
 
                     {/* pending task */}
@@ -149,6 +153,20 @@ const Todos = () => {
                             (provided) => (
                                 <div className=" w-full md:w-1/3" ref={provided.innerRef} {...provided.droppableProps}>
                                     <h1 className="text-center text-xl my-3 font-medium font-serif">To - do</h1>
+                                    {
+                                        loading && <div className="h-32 flex justify-center items-center w-full">
+                                            <Spin
+                                                indicator={
+                                                    <LoadingOutlined
+                                                        style={{
+                                                            fontSize: 24,
+                                                        }}
+                                                        spin
+                                                    />
+                                                }
+                                            />
+                                        </div>
+                                    }
                                     <div className="flex flex-col flex-wrap pr-5">
                                         {
                                             todos && todos?.map((todo, indx) => {
@@ -220,6 +238,20 @@ const Todos = () => {
                             (provided) => (
                                 <div className="w-full md:w-1/3" ref={provided.innerRef} {...provided.droppableProps}>
                                     <h1 className="text-center text-xl my-3 font-medium font-serif">On Going Task</h1>
+                                    {
+                                        loading && <div className="h-32 flex justify-center items-center w-full">
+                                            <Spin
+                                                indicator={
+                                                    <LoadingOutlined
+                                                        style={{
+                                                            fontSize: 24,
+                                                        }}
+                                                        spin
+                                                    />
+                                                }
+                                            />
+                                        </div>
+                                    }
                                     <div className="flex flex-col flex-wrap" >
                                         {
                                             ongoing && ongoing.map((todo, indx) => {
@@ -291,6 +323,20 @@ const Todos = () => {
                             (provided) => (
                                 <div className="w-full md:w-1/3" ref={provided.innerRef} {...provided.droppableProps}>
                                     <h1 className="text-center text-xl my-3 font-medium font-serif">Completed task</h1>
+                                    {
+                                        loading && <div className="h-32 flex justify-center items-center w-full">
+                                            <Spin
+                                                indicator={
+                                                    <LoadingOutlined
+                                                        style={{
+                                                            fontSize: 24,
+                                                        }}
+                                                        spin
+                                                    />
+                                                }
+                                            />
+                                        </div>
+                                    }
                                     <div className="flex flex-col flex-wrap" >
                                         {
                                             completedTodos && completedTodos.map((todo, indx) => {
