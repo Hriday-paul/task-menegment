@@ -27,7 +27,7 @@ const NewTaskDrawer = ({ setOpen , fetchTasks}) => {
 
     const onSubmit = async (userData) => {
         setLoading(true)
-        const data = { ...userData, dedline: Date.parse(userData.dedline.$d), user: userInfo.email, photo : userInfo.photoURL }
+        const data = { ...userData, dedline: Date.parse(userData.dedline.$d), user: userInfo.email, photo : userInfo.photoURL, status : 'pending' }
         axiosPublic.post('/addTask', data)
             .then(() => {
                 setLoading(false);

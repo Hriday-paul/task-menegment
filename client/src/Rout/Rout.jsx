@@ -6,10 +6,12 @@ import Register from "../pages/Register/Register"
 import PrivateRout from "../component/Navbar/private/PrivateRout";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Todos from "../pages/Todos/Todos";
+import ErrorPage from ".././pages/ErrorPage/ErrorPage"
 
 const rout = createBrowserRouter([
     {
         path : '/',
+        errorElement : <ErrorPage></ErrorPage>,
         element : <Root></Root>,
         children : [
             {
@@ -24,7 +26,7 @@ const rout = createBrowserRouter([
         children : [
             {
                 path : '/dashboard/todos',
-                element : <Todos></Todos>
+                element : <PrivateRout><Todos></Todos></PrivateRout>
             }
         ]
     },

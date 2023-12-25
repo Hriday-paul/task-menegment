@@ -4,11 +4,11 @@ import auth from '../../../firebase.config.js'
 import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
 
 
-export const authContext = createContext(null)
+export const authContext = createContext(null);
 
 function Authonicate({children}) {
     const [userInfo, setUserInfo] = useState("")
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
 
     const provider = new GoogleAuthProvider();
 

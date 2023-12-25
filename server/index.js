@@ -29,6 +29,7 @@ async function run() {
         const dataBase = client.db("TaskMenegment");
         const users = dataBase.collection("users");
         const tasks = dataBase.collection("tasks");
+        const completedTask = dataBase.collection("completedTask");
 
         //add new user
         app.put('/addUser', async (req, res) => {
@@ -58,8 +59,8 @@ async function run() {
         //get my tasks
         app.get('/getTasks/:email', async (req, res) => {
             try {
-                const result = await tasks.find({ user: req.params.email }).sort({ priority: 1 }).toArray();
-                res.send(result)
+                const pendingTask = await tasks.find({ user: req.params.email }).sort({ priority: 1 }).toArray();
+                res.send(pendingTask)
             } catch (err) {
                 res.send(err)
             }
@@ -69,7 +70,6 @@ async function run() {
         app.put('/updateTask', async (req, res) => {
             try {
                 const query = { _id: new ObjectId(req.body.id) };
-                console.log(req.body.id)
                 const updateDoc = {
                     $set: req.body
                 };

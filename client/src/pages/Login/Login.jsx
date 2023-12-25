@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { authContext } from "../../component/Navbar/Authonicate/Authonicate";
 import Swal from 'sweetalert2'
 import UseAxiosPublic from "../../Hooks/UseAxiosPublic/UseAxiosPublic";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { Spin } from "antd";
 
 function Login() {
@@ -86,6 +86,7 @@ function Login() {
           </div>
         </div>
       </section>
+      <Toaster></Toaster>
     </Spin>
   )
 }
